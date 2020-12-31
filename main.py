@@ -54,7 +54,15 @@ if __name__ == '__main__':
     
     early_stop_n = 0
     model.reset_parameters()
-    
+
+    u_feat = u_feat.to(device)
+    i_feat = i_feat.to(device)
+    enc_G = enc_G.to(device)
+    train_dec_G = train_dec_G.to(device)
+    test_dec_G = test_dec_G.to(device)
+    train_labels = train_labels.to(device)
+    test_labels = test_labels.to(device)
+
     for epoch in range(args.epoch):
             
         model.train()

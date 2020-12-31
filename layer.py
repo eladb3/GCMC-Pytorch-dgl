@@ -109,7 +109,7 @@ class BiDecoder(nn.Module):
         self.dropout = nn.Dropout(dropout_rate)
 
 
-        self.Ps = []
+        self.Ps = nn.ParameterList()
         
         for i in range(len(self.rating_vals)):
             self.Ps.append(Parameter(torch.Tensor(in_dim, in_dim)))
@@ -148,9 +148,10 @@ class BiDecoder(nn.Module):
             basis_out.append(torch.unsqueeze(graph.edata['sr'],1))
 
         out = torch.cat(basis_out, dim=1)
-        
+
+        out = out.squeeze(2)
         out = F.softmax(out, dim = 1)
-        possible_ratings = torch.Tensor(self.rating_vals)
+        possible_ratings = torch.Tensor(self.rating_vals).to(out.device)
 
         ratings = torch.sum(out*possible_ratings, dim =1)
         return ratings

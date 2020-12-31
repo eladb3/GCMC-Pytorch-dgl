@@ -287,7 +287,7 @@ class ml1m:
             (ones, (u_id, i_id)),
             shape=(self.n_user, self.n_item), dtype=np.float32)
         
-        G = dgl.bipartite(user_item_ratings_coo, 'user', 'rate', 'item')
+        G = dgl.bipartite_from_scipy(user_item_ratings_coo, 'user', 'rate', 'item')
         G.edata['label'] = r
         
         # print(G.find_edges(0))
